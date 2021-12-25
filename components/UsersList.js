@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
-import { FlatList, View , Text} from 'react-native'
+import { FlatList, View , Text , StyleSheet} from 'react-native'
 import axios from 'axios'
 import Loading from './Loading'
+
+//Config
+import { config } from "../config.js";
+const configData = config();
+const domain_url = configData.EXPRESS_JS_SERVER_URL
+
 
 export default class UsersList extends Component {
 
@@ -23,7 +29,7 @@ export default class UsersList extends Component {
         }
         
         //const url = domain_url + "/api/member/basic/from/"+ ( (this.state.page * this.state.itemsPerPage) -9 ) +"/count/"+ this.state.itemsPerPage ;
-        const url = "https://lib-management-sys.herokuapp.com/api/user";
+        const url =  domain_url + "/api/user";
         axios
         .get(url,headers)
         .then(res => {
@@ -59,7 +65,7 @@ export default class UsersList extends Component {
                         :
                         <>
                             <FlatList data={this.state.users} renderItem={({item})=>
-                                <Text key={item._id}>{item.email}</Text>
+                                <Text style={styles.listItem} key={item._id}>{item.email}</Text>
                             }  
                             />
                         </>
@@ -78,3 +84,14 @@ export default class UsersList extends Component {
         )
     }
 }
+
+
+const styles = StyleSheet.create({
+    listItem: {
+        padding: 15,
+        backgroundColor: '#f8f8f8',
+        borderBottomWidth: 1,
+        borderColor: '#eee',
+        textAlign: 'center'
+    },
+});

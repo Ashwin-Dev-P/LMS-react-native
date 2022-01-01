@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, View , Text , StyleSheet} from 'react-native'
+import { FlatList, View, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import axios from 'axios'
 import Loading from './Loading'
 
@@ -11,7 +11,7 @@ const domain_url = configData.EXPRESS_JS_SERVER_URL
 
 export default class UsersList extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             users: [],
@@ -19,67 +19,74 @@ export default class UsersList extends Component {
             error: false,
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         this.setState({
             loading: true
         })
         const headers = {
             'Content-Type': 'application/json',
-            
+
         }
-        
+
         //const url = domain_url + "/api/member/basic/from/"+ ( (this.state.page * this.state.itemsPerPage) -9 ) +"/count/"+ this.state.itemsPerPage ;
-        const url =  domain_url + "/api/user";
+        const url = domain_url + "/api/user";
         axios
-        .get(url,headers)
-        .then(res => {
-            
-            if(res.status === 200 && res.data.status === 200){
-                this.setState({
-                    users: res.data.data
-                })
+            .get(url, headers)
+            .then(res => {
 
+                if (res.status === 200 && res.data.status === 200) {
+                    this.setState({
+                        users: res.data.data
+                    })
+
+                }
+
+                this.setState({ loading: false });
+
+
+            })
+            .catch(error => {
+
+                console.log(error);
+                this.setState({ loading: false, error: true });
             }
-            
-            this.setState({ loading: false });
-
-            
-        })
-        .catch(error=>{
-           
-            console.log(error);
-            this.setState({ loading: false, error: true });
-        }
-        );
+            );
     }
     render() {
 
         return (
             <View>
-                {this.state.loading === false ? 
-                <>
-                    {this.state.error === true ? 
-                        <>
-                            Something went wrong
-                        </> 
-                        :
-                        <>
-                            <FlatList data={this.state.users} renderItem={({item})=>
-                                <Text style={styles.listItem} key={item._id}>{item.email}</Text>
-                            }  
-                            />
-                        </>
-                    }
-                    
+                {this.state.loading === false ?
+                    <>
+                        {this.state.error === true ?
+                            <>
+                                Something went wrong
+                            </>
+                            :
+                            <>
+                                {this.state.users.length < 1 ? <><Text>No users found</Text></> :
+
+                                    <>
+                                        <FlatList data={this.state.users} renderItem={({ item }) =>
+                                            <Text style={styles.listItem} key={item._id} numberOfLines={1} >{item.email}</Text>
+                                        }
+                                        />
+                                    </>
+
+                                }
+
+                            </>
+                        }
 
 
 
 
-                </> 
-                : 
-                <Loading></Loading>
+
+                    </>
+                    :
+                    <ActivityIndicator />
                 }
-                
+
             </View>
         )
     }

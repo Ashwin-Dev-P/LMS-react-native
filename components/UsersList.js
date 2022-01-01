@@ -5,6 +5,7 @@ import Loading from './Loading'
 
 //Config
 import { config } from "../config.js";
+import NavButtons from './NavButtons';
 const configData = config();
 const domain_url = configData.EXPRESS_JS_SERVER_URL
 
@@ -60,7 +61,7 @@ export default class UsersList extends Component {
                     <>
                         {this.state.error === true ?
                             <>
-                                Something went wrong
+                                <Text style={styles.blackText}>Something went wrong</Text>
                             </>
                             :
                             <>
@@ -86,7 +87,7 @@ export default class UsersList extends Component {
                     :
                     <ActivityIndicator />
                 }
-
+                <NavButtons props={this.props} />
             </View>
         )
     }
@@ -99,6 +100,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f8f8',
         borderBottomWidth: 1,
         borderColor: '#eee',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'black'
     },
+    blackText: {
+        color: 'black',
+    }
 });

@@ -1,13 +1,32 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
-import Header from './Header'
-import UsersList from './UsersList'
+import { View, Text, Button, TouchableHighlight, StyleSheet } from 'react-native'
+import NavButtons from './NavButtons';
+
 export default class Home extends Component {
+    constructor(props) {
+        super(props);
+
+    }
+
+
     render() {
+
         return (
             <View>
-                <Text>Home</Text>
+                <Text style={styles.blackText}>Home</Text>
+
+                <NavButtons props={this.props} />
+
+
             </View>
         )
     }
 }
+
+
+const styles = StyleSheet.create({
+    blackText: {
+        color: 'black',
+    }
+
+});

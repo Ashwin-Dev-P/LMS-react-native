@@ -9,6 +9,7 @@ import { StyleSheet } from 'react-native'
 import Home from './components/Home';
 import UsersList from './components/UsersList';
 import Login from './components/Login';
+import SignUp from './components/SignUp';
 
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -34,6 +35,7 @@ const App = () => {
             <Stack.Screen name="Users" component={UsersList} />
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name='Login' component={Login} />
+            <Stack.Screen name="SignUp" component={SignUp} />
 
           </Stack.Navigator>
         </NavigationContainer>

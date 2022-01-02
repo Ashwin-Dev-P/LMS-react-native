@@ -102,7 +102,7 @@ export default class Login extends Component {
 
     navigateTo(path) {
         this.props.navigation.navigate(path)
-        console.log(path)
+
     }
 
     render() {

@@ -39,8 +39,7 @@ export default class SignUp extends Component {
 
 
     handleSubmit = () => {
-        // do the things  
-        console.log("Submiting form pls wait...")
+
         this.setState({
             loading: true
         })
@@ -51,7 +50,7 @@ export default class SignUp extends Component {
 
         //const url = domain_url + "/api/member/basic/from/"+ ( (this.state.page * this.state.itemsPerPage) -9 ) +"/count/"+ this.state.itemsPerPage ;
         const url = domain_url + "/api/user";
-        console.log("here")
+
         var form_data = {
             name: this.state.name,
             email: this.state.email,
@@ -94,12 +93,12 @@ export default class SignUp extends Component {
 
     navigateTo(path) {
         this.props.navigation.navigate(path)
-        console.log(path)
+
     }
 
 
     render() {
-        console.log(this.state.status)
+
         return (
             <View style={styles.container}>
                 <Text style={styles.heading}>Registration</Text>

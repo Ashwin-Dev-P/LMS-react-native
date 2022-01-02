@@ -16,11 +16,10 @@ export default class NavButtons extends Component {
 
     render() {
         return (
-            <View style={{ marginTop: "99%" }}>
+            <View style={{ marginTop: 20 }}>
                 <Button title="Users" onPress={() => this.navigateTo("Users")} ></Button>
                 <Button title="Home" onPress={() => this.navigateTo("Home")}></Button>
-                <Button title="Login" onPress={() => this.navigateTo("Login")}></Button>
-                <Button title="Sign Up" onPress={() => this.navigateTo("SignUp")}></Button>
+
             </View>
         )
     }

@@ -4,10 +4,10 @@ import axios from 'axios';
 
 
 import Loading from './Loading'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Config
 import { config } from "../config.js";
-import NavButtons from './NavButtons';
 const configData = config();
 const domain_url = configData.EXPRESS_JS_SERVER_URL
 
@@ -18,6 +18,7 @@ export default class SignUp extends Component {
 
         this.changeHandler = this.changeHandler.bind(this);
 
+
         this.state = {
             email: '',
             name: '',
@@ -26,6 +27,17 @@ export default class SignUp extends Component {
             loading: false,
         }
     }
+
+    async addJWT(value) {
+        try {
+            await AsyncStorage.setItem("jwt", value)
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+
+
     handleSubmit = () => {
         // do the things  
         console.log("Submiting form pls wait...")
@@ -49,14 +61,15 @@ export default class SignUp extends Component {
         axios
             .post(url, form_data, headers)
             .then(res => {
-                console.log("entered")
-                console.log(res.data)
-                if (res.status === 200 && res.data.status === 200) {
-                    this.setState({
-                        data: res.data.data
-                    })
-                    console.log(res)
 
+                if (res.status === 200 && res.data.status === 200) {
+                    const { token } = res.data
+
+                    this.addJWT(token)
+
+
+                    //Navigate to home page if succeffully registered
+                    this.props.navigation.navigate("Home")
                 }
 
                 this.setState({ loading: false, message: res.data.message, status: `styles.error` });
@@ -77,6 +90,11 @@ export default class SignUp extends Component {
             [name]: text
         })
 
+    }
+
+    navigateTo(path) {
+        this.props.navigation.navigate(path)
+        console.log(path)
     }
 
 
@@ -115,6 +133,7 @@ export default class SignUp extends Component {
                     value={this.state.password}
 
                     onChangeText={(text) => this.changeHandler(text, "password")}
+                    secureTextEntry={true}
                 />
 
 
@@ -128,6 +147,7 @@ export default class SignUp extends Component {
                     value={this.state.confirm_password}
 
                     onChangeText={(text) => this.changeHandler(text, "confirm_password")}
+                    secureTextEntry={true}
                 />
 
 
@@ -138,6 +158,14 @@ export default class SignUp extends Component {
 
                 {this.state.loading === true ? <Text style={styles.message}> <Loading /> </Text> : null}
                 {this.state.message && this.state.loading === false ? <Text style={styles.message}>{this.state.message}</Text> : null}
+
+                <View style={styles.div}>
+                    <Text>
+                        Already have an account?
+                        <Text style={styles.linkStyle} onPress={() => this.navigateTo("Login")} >login</Text>
+                    </Text>
+                </View>
+
             </View>
         )
     }
@@ -154,11 +182,14 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     container: {
-        margin: 40
+        margin: 40,
+        marginTop: 150,
+
     },
     formField: {
-        height: 40, width: "95%", borderColor: 'gray', borderWidth: 1, marginBottom: 20,
-        borderRadius: 3.5
+        height: 50, width: "100%", borderColor: 'gray', borderWidth: 1, marginBottom: 20,
+        borderRadius: 3.5,
+        paddingLeft: 20,
     },
     error: {
         fontSize: 20,
@@ -167,6 +198,15 @@ const styles = StyleSheet.create({
     message: {
         marginTop: 20,
         textAlign: 'center',
+    },
+    linkStyle: {
+        color: 'blue'
+    },
+    div: {
+        marginTop: 40,
+        textAlign: 'center',
+        marginLeft: 70,
+        fontSize: 20,
     }
 
 });

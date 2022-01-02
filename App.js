@@ -10,6 +10,7 @@ import Home from './components/Home';
 import UsersList from './components/UsersList';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import Test from './components/test';
 
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -29,13 +30,14 @@ const App = () => {
     <>
       <SafeAreaView style={{ flex: 1 }}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName='Home'>
+          <Stack.Navigator initialRouteName='Login'>
 
 
             <Stack.Screen name="Users" component={UsersList} />
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name='Login' component={Login} />
             <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="Test" component={Test} />
 
           </Stack.Navigator>
         </NavigationContainer>

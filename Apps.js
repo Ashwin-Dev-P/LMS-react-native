@@ -7,6 +7,8 @@ import Home from './components/Home';
 import UsersList from './components/UsersList';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import MyProfile from './components/MyProfile';
+import Books from './components/Books';
 //import Test from './components/test';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -34,8 +36,8 @@ export default class Apps extends Component {
 
 
     async isLoggedIn() {
-        var jwt = await AsyncStorage.getItem("jwt")
-        console.log(jwt)
+        await AsyncStorage.getItem("jwt")
+
         if (jwt) {
             return true;
         } else {
@@ -44,7 +46,7 @@ export default class Apps extends Component {
     }
 
     async logout() {
-        var jwt = await AsyncStorage.removeItem("jwt");
+        await AsyncStorage.removeItem("jwt");
         this.setState({
             loggedIn: false,
         })
@@ -77,28 +79,24 @@ export default class Apps extends Component {
 
                 <NavigationContainer>
 
-                    {this.state.loggedIn === true ?
-
-                        <>
-                            <Stack.Navigator initialRouteName='Home'>
-                                <Stack.Screen name="Users" component={UsersList} />
-                                <Stack.Screen name="Home" component={Home} />
 
 
 
-                            </Stack.Navigator>
-                        </> :
-                        <>
-                            <Stack.Navigator initialRouteName='Login'>
+                    <Stack.Navigator initialRouteName={this.state.loggedIn === true ? 'Home' : 'Login'}>
+                        <Stack.Screen name="Users" component={UsersList} />
+                        <Stack.Screen name="Home" component={Home} />
+                        <Stack.Screen name="Profile" component={MyProfile} />
+                        <Stack.Screen name="Books" component={Books} />
 
-                                <Stack.Screen name='Login' component={Login} />
-                                <Stack.Screen name="SignUp" component={SignUp} />
+                        <Stack.Screen name='Login' component={Login} />
+                        <Stack.Screen name="SignUp" component={SignUp} />
 
 
-                            </Stack.Navigator>
-                        </>
+                    </Stack.Navigator>
 
-                    }
+
+
+
 
 
 

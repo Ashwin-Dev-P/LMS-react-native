@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, View } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 export default class NavButtons extends Component {
 
@@ -17,10 +17,47 @@ export default class NavButtons extends Component {
     render() {
         return (
             <View style={{ marginTop: 20 }}>
-                <Button title="Users" onPress={() => this.navigateTo("Users")} ></Button>
-                <Button title="Home" onPress={() => this.navigateTo("Home")}></Button>
+
+
+                <TouchableOpacity onPress={() => this.navigateTo("Home")} style={styles.navButton}>
+                    <Text style={styles.whiteText}>Home</Text>
+                </TouchableOpacity>
+
+
+                <TouchableOpacity onPress={() => this.navigateTo("Users")} style={styles.navButton}>
+                    <Text style={styles.whiteText}>Users</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => this.navigateTo("Profile")} style={styles.navButton}>
+                    <Text style={styles.whiteText}>My profile</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => this.navigateTo("Books")} style={styles.navButton}>
+                    <Text style={styles.whiteText}>Books</Text>
+                </TouchableOpacity>
 
             </View>
         )
     }
 }
+
+
+
+const styles = StyleSheet.create({
+    navButton: {
+        backgroundColor: "#007bff",
+
+        padding: "3%",
+        width: "33%"
+    },
+    blackText: {
+        color: 'black',
+    },
+
+    whiteText: {
+
+        color: "white",
+        textAlign: "center"
+
+    }
+});

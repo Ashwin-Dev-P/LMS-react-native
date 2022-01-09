@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { FlatList, View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { FlatList, View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native'
 import axios from 'axios'
 import Loading from './Loading'
+
+import BookListItem from './BookListItem'
 
 //Config
 import { config } from "../config.js";
@@ -10,14 +12,18 @@ const configData = config();
 const domain_url = configData.EXPRESS_JS_SERVER_URL
 
 
-export default class UsersList extends Component {
+export default class Books extends Component {
 
     constructor(props) {
-        super(props)
 
+        super(props);
+
+
+        this.loadBooks = this.loadBooks.bind(this);
         this.onPress = this.onPress.bind(this);
         this.state = {
-            users: [],
+            books: [],
+
             loading: true,
             error: false,
             limit: 10,
@@ -25,7 +31,8 @@ export default class UsersList extends Component {
         }
     }
 
-    loadData(skip) {
+
+    loadBooks(skip) {
         this.setState({
             loading: true
         })
@@ -35,7 +42,7 @@ export default class UsersList extends Component {
         }
         console.log(this.state.skip)
         //const url = domain_url + "/api/member/basic/from/"+ ( (this.state.page * this.state.itemsPerPage) -9 ) +"/count/"+ this.state.itemsPerPage ;
-        const url = domain_url + `/api/user/limit/10/skip/${skip || this.state.skip}`;
+        const url = domain_url + `/api/book/limit/10/skip/${skip || this.state.skip}`;
         axios
             .get(url, headers)
             .then(res => {
@@ -46,7 +53,7 @@ export default class UsersList extends Component {
                     console.log(newData)
                     this.setState({
                         //users: res.data.data,
-                        users: [...this.state.users, ...newData]
+                        books: [...this.state.books, ...newData]
                     })
 
                 }
@@ -63,7 +70,6 @@ export default class UsersList extends Component {
             );
     }
 
-
     onPress() {
         const limit = this.state.limit;
         var skip = this.state.skip;
@@ -73,44 +79,53 @@ export default class UsersList extends Component {
             skip: skip,
         })
 
-        this.loadData(skip)
+        this.loadBooks(skip)
     }
-    componentDidMount() {
-        this.loadData()
-    }
-    render() {
 
+    componentDidMount() {
+        this.loadBooks()
+    }
+
+    render() {
         return (
             <View>
+                <ScrollView>
 
-                {this.state.error === true ?
-                    <>
-                        <Text style={styles.blackText}>Something went wrong</Text>
-                    </>
-                    :
-                    <>
-                        {this.state.loading === false && this.state.users.length < 1 ? <><Text>No users found</Text></> :
 
-                            <>
-                                <FlatList data={this.state.users} renderItem={({ item }) =>
-                                    <Text style={styles.listItem} key={item._id} numberOfLines={1} >{item.email}</Text>
-                                }
-                                />
-                            </>
 
-                        }
+                    {this.state.error === true ?
+                        <>
+                            <Text style={styles.blackText}>Something went wrong</Text>
+                        </>
+                        :
+                        <>
+                            {this.state.loading === false && this.state.books.length < 1 ? <><Text>No users found</Text></> :
 
-                    </>
-                }
-                {this.state.loading === true ?
+                                <>
 
-                    <Loading /> : null
-                }
+                                    <FlatList data={this.state.books} renderItem={({ item }) =>
+                                        <BookListItem name={item.name} picture={item.picture} />
+                                    }
+                                    />
 
-                <TouchableOpacity style={styles.loadMore} onPress={this.onPress}>
-                    <Text style={styles.whiteText}>Load more</Text>
-                </TouchableOpacity>
-                <NavButtons props={this.props} />
+                                </>
+
+                            }
+
+                        </>
+                    }
+                    {this.state.loading === true ?
+
+                        <Loading /> : null
+                    }
+
+                    <TouchableOpacity style={styles.loadMore} onPress={this.onPress}>
+                        <Text style={styles.whiteText}>Load more</Text>
+                    </TouchableOpacity>
+                    <NavButtons props={this.props} />
+
+
+                </ScrollView>
             </View>
         )
     }

@@ -9,6 +9,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import MyProfile from './components/MyProfile';
 import Books from './components/Books';
+import BookDetail from './components/BookDetail';
 //import Test from './components/test';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -87,6 +88,7 @@ export default class Apps extends Component {
                         <Stack.Screen name="Home" component={Home} />
                         <Stack.Screen name="Profile" component={MyProfile} />
                         <Stack.Screen name="Books" component={Books} />
+                        <Stack.Screen name="BookDetail" component={BookDetail} />
 
                         <Stack.Screen name='Login' component={Login} />
                         <Stack.Screen name="SignUp" component={SignUp} />

@@ -21,6 +21,7 @@ export default class Books extends Component {
 
         this.loadBooks = this.loadBooks.bind(this);
         this.onPress = this.onPress.bind(this);
+        this.viewBook = this.viewBook.bind(this);
         this.state = {
             books: [],
 
@@ -40,7 +41,7 @@ export default class Books extends Component {
             'Content-Type': 'application/json',
 
         }
-        console.log(this.state.skip)
+
         //const url = domain_url + "/api/member/basic/from/"+ ( (this.state.page * this.state.itemsPerPage) -9 ) +"/count/"+ this.state.itemsPerPage ;
         const url = domain_url + `/api/book/limit/10/skip/${skip || this.state.skip}`;
         axios
@@ -48,9 +49,9 @@ export default class Books extends Component {
             .then(res => {
 
                 if (res.status === 200 && res.data.status === 200) {
-                    console.log(res.data.data)
+
                     var newData = res.data.data;
-                    console.log(newData)
+
                     this.setState({
                         //users: res.data.data,
                         books: [...this.state.books, ...newData]
@@ -86,6 +87,12 @@ export default class Books extends Component {
         this.loadBooks()
     }
 
+    viewBook(_id) {
+        this.props.navigation.navigate('BookDetail', { "_id": _id })
+    }
+
+
+
     render() {
         return (
             <View>
@@ -104,7 +111,10 @@ export default class Books extends Component {
                                 <>
 
                                     <FlatList data={this.state.books} renderItem={({ item }) =>
-                                        <BookListItem name={item.name} picture={item.picture} />
+                                        <TouchableOpacity onPress={() => this.viewBook(item._id)}>
+                                            <BookListItem name={item.name} picture={item.picture} />
+                                        </TouchableOpacity>
+
                                     }
                                     />
 

@@ -7,7 +7,7 @@ export default class MyProfile extends Component {
         return (
             <View>
                 <Text>My profile</Text>
-
+                <Text>My issued books</Text>
                 <NavButtons props={this.props} />
             </View>
         )

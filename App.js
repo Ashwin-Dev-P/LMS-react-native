@@ -1,7 +1,7 @@
 
 
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 
 
@@ -10,7 +10,7 @@ import Home from './components/Home';
 import UsersList from './components/UsersList';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
-import Test from './components/test';
+//import Test from './components/test';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -75,14 +75,14 @@ const App = () => {
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name='Login' component={Login} />
               <Stack.Screen name="SignUp" component={SignUp} />
-              <Stack.Screen name="Test" component={Test} />
+
 
             </Stack.Navigator>
             : <Stack.Navigator initialRouteName='Home'><Stack.Screen name="Users" component={UsersList} />
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name='Login' component={Login} />
               <Stack.Screen name="SignUp" component={SignUp} />
-              <Stack.Screen name="Test" component={Test} />
+
 
             </Stack.Navigator>
           }

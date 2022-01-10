@@ -37,8 +37,8 @@ export default class Apps extends Component {
 
 
     async isLoggedIn() {
-        await AsyncStorage.getItem("jwt")
-
+        const jwt = await AsyncStorage.getItem("jwt")
+        console.log(jwt)
         if (jwt) {
             return true;
         } else {
@@ -61,7 +61,7 @@ export default class Apps extends Component {
 
 
     render() {
-        console.log(this.state)
+
         return (
 
             <SafeAreaView style={{ flex: 1 }}>
@@ -80,21 +80,39 @@ export default class Apps extends Component {
 
                 <NavigationContainer>
 
+                    {this.state.loggedIn === true ?
 
 
+                        <Stack.Navigator initialRouteName="Home">
+                            <Stack.Screen name="Users" component={UsersList} />
+                            <Stack.Screen name="Home" component={Home} />
+                            <Stack.Screen name="Profile" component={MyProfile} />
+                            <Stack.Screen name="Books" component={Books} />
+                            <Stack.Screen name="BookDetail" component={BookDetail} />
 
-                    <Stack.Navigator initialRouteName={this.state.loggedIn === true ? 'Home' : 'Login'}>
-                        <Stack.Screen name="Users" component={UsersList} />
-                        <Stack.Screen name="Home" component={Home} />
-                        <Stack.Screen name="Profile" component={MyProfile} />
-                        <Stack.Screen name="Books" component={Books} />
-                        <Stack.Screen name="BookDetail" component={BookDetail} />
-
-                        <Stack.Screen name='Login' component={Login} />
-                        <Stack.Screen name="SignUp" component={SignUp} />
+                            <Stack.Screen name='Login' component={Login} />
+                            <Stack.Screen name="SignUp" component={SignUp} />
 
 
-                    </Stack.Navigator>
+                        </Stack.Navigator>
+                        :
+
+                        <Stack.Navigator initialRouteName="Login">
+                            <Stack.Screen name="Users" component={UsersList} />
+                            <Stack.Screen name="Home" component={Home} />
+                            <Stack.Screen name="Profile" component={MyProfile} />
+                            <Stack.Screen name="Books" component={Books} />
+                            <Stack.Screen name="BookDetail" component={BookDetail} />
+
+                            <Stack.Screen name='Login' component={Login} />
+                            <Stack.Screen name="SignUp" component={SignUp} />
+
+
+                        </Stack.Navigator>
+
+                    }
+
+
 
 
 

@@ -5,7 +5,7 @@ export default class Loading extends Component {
     render() {
         return (
             <View>
-                <ActivityIndicator size="small" />
+                <ActivityIndicator size={this.props.size} color={this.props.color} />
             </View>
         )
     }

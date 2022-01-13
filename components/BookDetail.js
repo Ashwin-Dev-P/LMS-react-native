@@ -15,7 +15,7 @@ export default class BookDetail extends Component {
     constructor(props) {
         super(props);
         const { _id } = this.props.route.params;
-        console.log(_id)
+
 
         this.getBookDetails = this.getBookDetails.bind(this);
         this.issueBook = this.issueBook.bind(this);
@@ -40,7 +40,6 @@ export default class BookDetail extends Component {
 
         }
 
-        //const url = domain_url + "/api/member/basic/from/"+ ( (this.state.page * this.state.itemsPerPage) -9 ) +"/count/"+ this.state.itemsPerPage ;
         const url = domain_url + `/api/user/issue_check/id/${book_id}`;
         axios
             .post(url, form_data, headers)
@@ -50,7 +49,7 @@ export default class BookDetail extends Component {
 
 
 
-                    console.log(res.data)
+
                     var issued = res.data.data;
                     this.setState({
                         issued
@@ -93,12 +92,12 @@ export default class BookDetail extends Component {
         axios
             .patch(url, form_data, headers)
             .then(res => {
-                console.log("res", res)
+
                 if (res.status === 200 && res.data.status === 200) {
 
 
 
-                    console.log(res.data)
+
                     this.setState({
                         issued: true,
                     })

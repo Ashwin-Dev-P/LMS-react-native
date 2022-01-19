@@ -158,6 +158,7 @@ export default class SignUp extends Component {
 
         <TextInput
           placeholder="email"
+          placeholderTextColor="gray"
           style={styles.formField}
           underlineColorAndroid="transparent"
           value={this.state.email}
@@ -168,6 +169,7 @@ export default class SignUp extends Component {
 
         <TextInput
           style={styles.formField}
+          placeholderTextColor="gray"
           // Adding hint in TextInput using Placeholder option.
           placeholder="Name"
           // Making the Under line Transparent.
@@ -179,6 +181,7 @@ export default class SignUp extends Component {
         <TextInput
           style={styles.formField}
           placeholder="Password"
+          placeholderTextColor="gray"
           underlineColorAndroid="transparent"
           value={this.state.password}
           onChangeText={text => this.changeHandler(text, 'password')}
@@ -188,6 +191,7 @@ export default class SignUp extends Component {
         <TextInput
           style={styles.formField}
           placeholder="Confirm password"
+          placeholderTextColor="gray"
           underlineColorAndroid="transparent"
           value={this.state.confirm_password}
           onChangeText={text => this.changeHandler(text, 'confirm_password')}
@@ -213,7 +217,7 @@ export default class SignUp extends Component {
         ) : null}
 
         <View style={styles.div}>
-          <Text>
+          <Text style={styles.blackText}>
             Already have an account?
             <Text
               style={styles.linkStyle}
@@ -232,6 +236,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     marginBottom: 10,
+    color: 'black',
   },
   blackText: {
     color: 'black',

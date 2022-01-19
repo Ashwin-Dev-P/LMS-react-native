@@ -132,6 +132,7 @@ export default class Login extends Component {
 
         <TextInput
           placeholder="email"
+          placeholderTextColor="gray"
           style={styles.formField}
           underlineColorAndroid="transparent"
           value={this.state.email}
@@ -143,6 +144,7 @@ export default class Login extends Component {
         <TextInput
           style={styles.formField}
           placeholder="Password"
+          placeholderTextColor="gray"
           underlineColorAndroid="transparent"
           value={this.state.password}
           onChangeText={text => this.changeHandler(text, 'password')}
@@ -168,7 +170,7 @@ export default class Login extends Component {
         ) : null}
 
         <View style={styles.div}>
-          <Text>
+          <Text style={styles.blackText}>
             Don't have an account?
             <Text
               style={styles.linkStyle}
@@ -187,6 +189,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     marginBottom: 10,
+    color: 'black',
   },
   blackText: {
     color: 'black',
@@ -203,6 +206,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 3.5,
     paddingLeft: 20,
+    color: 'black',
   },
   error: {
     fontSize: 20,
@@ -210,6 +214,7 @@ const styles = StyleSheet.create({
   message: {
     marginTop: 20,
     textAlign: 'center',
+    color: 'black',
   },
   linkStyle: {
     color: 'blue',
@@ -224,5 +229,8 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 20,
     textAlign: 'center',
+  },
+  textInput: {
+    color: 'black',
   },
 });

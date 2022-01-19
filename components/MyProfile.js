@@ -104,19 +104,19 @@ export default class MyProfile extends Component {
             <View>
               <View style={styles.details}>
                 <Text style={styles.label}>Name:</Text>
-                <Text>{name}</Text>
+                <Text style={styles.blackText}>{name}</Text>
               </View>
 
               <View style={styles.details}>
                 <Text style={styles.label}>Email:</Text>
-                <Text>{email}</Text>
+                <Text style={styles.blackText}>{email}</Text>
               </View>
 
               {book ? (
                 <View style={styles.details}>
                   <Text style={styles.label}>My issued book:</Text>
                   <Text style={styles.listItem} numberOfLines={1}>
-                    {book.name}
+                    <Text style={styles.blackText}>{book.name}</Text>
                   </Text>
                   <View style={styles.myimage}>
                     <Image
@@ -128,7 +128,7 @@ export default class MyProfile extends Component {
               ) : (
                 <View style={styles.details}>
                   <Text style={styles.label}>My issued book:</Text>
-                  <Text>No book issued</Text>
+                  <Text style={styles.blackText}>No book issued</Text>
                 </View>
               )}
             </View>
@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: '900',
     fontSize: 18,
+    color: 'black',
   },
   details: {
     padding: '1%',

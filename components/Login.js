@@ -57,16 +57,10 @@ export default class Login extends Component {
   }
 
   handleSubmit = async () => {
-    // do the things
-    console.log('here');
     this.setState({
       loading: true,
     });
-    console.log('here');
     const validInput = await this.validateData();
-    console.log('here');
-    console.log(validInput);
-    console.log('here');
     if (validInput !== true) {
       this.setState({
         loading: false,
@@ -74,12 +68,10 @@ export default class Login extends Component {
       return false;
     }
 
-    console.log('here');
     const headers = {
       'Content-Type': 'application/json',
     };
 
-    //const url = domain_url + "/api/member/basic/from/"+ ( (this.state.page * this.state.itemsPerPage) -9 ) +"/count/"+ this.state.itemsPerPage ;
     const url = domain_url + '/api/user/login';
 
     var form_data = {
@@ -97,13 +89,21 @@ export default class Login extends Component {
 
           //Navigate to home page if login is success
           this.props.navigation.navigate('Home');
+
+          this.setState({
+            error: false,
+          });
+        } else {
+          this.setState({
+            message: res.data.message,
+            error: true,
+          });
         }
 
         this.setState({
           loading: false,
-          message: res.data.message,
+
           status: `styles.error`,
-          error: false,
         });
       })
       .catch(error => {

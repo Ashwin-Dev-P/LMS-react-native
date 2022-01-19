@@ -34,12 +34,67 @@ export default class SignUp extends Component {
     }
   }
 
-  async validateData() {}
+  async validateData() {
+    const email = this.state.email;
+    if (!email || email.trim().length < 3) {
+      this.setState({
+        error: true,
+        message: 'Please enter a valid email id',
+      });
+      return false;
+    }
 
-  handleSubmit = () => {
+    const name = this.state.name;
+    if (!name || name.trim().length < 3) {
+      this.setState({
+        error: true,
+        message: 'Please enter a valid name',
+      });
+      return false;
+    }
+
+    const password = this.state.password;
+    if (!password || password.trim().length < 1) {
+      this.setState({
+        error: true,
+        message: 'Please enter a password',
+      });
+      return false;
+    }
+
+    const confirm_password = this.state.confirm_password;
+    if (!confirm_password || confirm_password.trim().length < 1) {
+      this.setState({
+        error: true,
+        message: 'Please enter a password confirmation',
+      });
+      return false;
+    }
+
+    if (password !== confirm_password) {
+      this.setState({
+        error: true,
+        message: 'Both the passwords do not match',
+      });
+      return false;
+    }
+
+    return true;
+  }
+
+  handleSubmit = async () => {
     this.setState({
       loading: true,
     });
+
+    const validInput = await this.validateData();
+    if (validInput !== true) {
+      this.setState({
+        loading: false,
+      });
+      return false;
+    }
+
     const headers = {
       'Content-Type': 'application/json',
     };
@@ -53,7 +108,7 @@ export default class SignUp extends Component {
       password: this.state.password,
     };
 
-    axios
+    await axios
       .post(url, form_data, headers)
       .then(res => {
         if (res.status === 200 && res.data.status === 200) {
@@ -63,11 +118,20 @@ export default class SignUp extends Component {
 
           //Navigate to home page if succeffully registered
           this.props.navigation.navigate('Home');
+
+          this.setState({
+            error: false,
+          });
+        } else {
+          this.setState({
+            message: res.data.message,
+            error: true,
+          });
         }
 
         this.setState({
           loading: false,
-          message: res.data.message,
+
           status: `styles.error`,
         });
       })
@@ -138,8 +202,14 @@ export default class SignUp extends Component {
             <Loading />{' '}
           </Text>
         ) : null}
-        {this.state.message && this.state.loading === false ? (
+        {this.state.message &&
+        !this.state.error &&
+        this.state.loading === false ? (
           <Text style={styles.message}>{this.state.message}</Text>
+        ) : null}
+
+        {!this.state.loading && this.state.error && this.state.message ? (
+          <Text style={styles.errorDiv}>{this.state.message}</Text>
         ) : null}
 
         <View style={styles.div}>
@@ -194,5 +264,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginLeft: 70,
     fontSize: 20,
+  },
+  errorDiv: {
+    color: 'red',
+    marginTop: 20,
+    textAlign: 'center',
   },
 });

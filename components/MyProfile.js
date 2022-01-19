@@ -7,9 +7,9 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import NavButtons from './NavButtons';
 import axios from 'axios';
 import Loading from './Loading';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Config
 import {config} from '../config.js';
@@ -30,10 +30,12 @@ export default class MyProfile extends Component {
   }
 
   async componentDidMount() {
+    console.log('mounted');
     this.setState({
       loggedIn: true,
     });
     await this.fetchMyProfile();
+    console.log('after mounted');
   }
 
   async fetchMyProfile() {
@@ -44,9 +46,15 @@ export default class MyProfile extends Component {
       'Content-Type': 'application/json',
     };
 
-    const url = domain_url + `/api/user/id/61e037da46ca6f785e872b91`;
+    const form_data = {
+      jwt: await AsyncStorage.getItem('jwt'),
+    };
+
+    console.log(form_data);
+
+    const url = domain_url + `/api/user/my_profile`;
     await axios
-      .get(url, headers)
+      .post(url, form_data, headers)
       .then(res => {
         console.log('response', res.data.user);
         if (res.status === 200 && res.data.status === 200) {
@@ -85,7 +93,11 @@ export default class MyProfile extends Component {
       var {name, email} = this.state.user;
 
       var book = this.state.user.book_currently_issued.book;
-      var url = domain_url + book.picture;
+
+      if (book) {
+        var url = domain_url + book.picture;
+      }
+
       console.log(book);
     }
 
@@ -106,18 +118,25 @@ export default class MyProfile extends Component {
                 <Text>{email}</Text>
               </View>
 
-              <View style={styles.details}>
-                <Text style={styles.label}>My issued book:</Text>
-                <Text style={styles.listItem} numberOfLines={1}>
-                  {book.name}
-                </Text>
-                <View style={styles.myimage}>
-                  <Image
-                    source={{uri: url}}
-                    style={{width: 300, height: 300}}
-                  />
+              {book ? (
+                <View style={styles.details}>
+                  <Text style={styles.label}>My issued book:</Text>
+                  <Text style={styles.listItem} numberOfLines={1}>
+                    {book.name}
+                  </Text>
+                  <View style={styles.myimage}>
+                    <Image
+                      source={{uri: url}}
+                      style={{width: 300, height: 300}}
+                    />
+                  </View>
                 </View>
-              </View>
+              ) : (
+                <View style={styles.details}>
+                  <Text style={styles.label}>My issued book:</Text>
+                  <Text>No book issued</Text>
+                </View>
+              )}
             </View>
           )}
 

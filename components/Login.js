@@ -16,6 +16,7 @@ export default class Login extends Component {
     super(props);
 
     this.changeHandler = this.changeHandler.bind(this);
+    this.validateData = this.validateData.bind(this);
 
     this.state = {
       email: '',
@@ -34,12 +35,46 @@ export default class Login extends Component {
     }
   }
 
-  handleSubmit = () => {
-    // do the things
+  async validateData() {
+    const email = this.state.email;
+    if (!email || email.trim().length < 3) {
+      this.setState({
+        error: true,
+        message: 'Please enter a valid email id',
+      });
+      return false;
+    }
 
+    const password = this.state.password;
+    if (!password || password.trim().length < 1) {
+      this.setState({
+        error: true,
+        message: 'Please enter a password',
+      });
+      return false;
+    }
+    return true;
+  }
+
+  handleSubmit = async () => {
+    // do the things
+    console.log('here');
     this.setState({
       loading: true,
     });
+    console.log('here');
+    const validInput = await this.validateData();
+    console.log('here');
+    console.log(validInput);
+    console.log('here');
+    if (validInput !== true) {
+      this.setState({
+        loading: false,
+      });
+      return false;
+    }
+
+    console.log('here');
     const headers = {
       'Content-Type': 'application/json',
     };
@@ -48,12 +83,11 @@ export default class Login extends Component {
     const url = domain_url + '/api/user/login';
 
     var form_data = {
-      name: this.state.name,
       email: this.state.email,
       password: this.state.password,
     };
 
-    axios
+    await axios
       .post(url, form_data, headers)
       .then(res => {
         if (res.status === 200 && res.data.status === 200) {
@@ -69,6 +103,7 @@ export default class Login extends Component {
           loading: false,
           message: res.data.message,
           status: `styles.error`,
+          error: false,
         });
       })
       .catch(error => {
@@ -122,8 +157,14 @@ export default class Login extends Component {
             <Loading />{' '}
           </Text>
         ) : null}
-        {this.state.message && this.state.loading === false ? (
+        {this.state.message &&
+        !this.state.error &&
+        this.state.loading === false ? (
           <Text style={styles.message}>{this.state.message}</Text>
+        ) : null}
+
+        {!this.state.loading && this.state.error && this.state.message ? (
+          <Text style={styles.errorDiv}>{this.state.message}</Text>
         ) : null}
 
         <View style={styles.div}>
@@ -178,5 +219,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginLeft: 70,
     fontSize: 20,
+  },
+  errorDiv: {
+    color: 'red',
+    marginTop: 20,
+    textAlign: 'center',
   },
 });

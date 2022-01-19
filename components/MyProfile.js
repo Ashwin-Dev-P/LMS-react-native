@@ -30,12 +30,10 @@ export default class MyProfile extends Component {
   }
 
   async componentDidMount() {
-    console.log('mounted');
     this.setState({
       loggedIn: true,
     });
     await this.fetchMyProfile();
-    console.log('after mounted');
   }
 
   async fetchMyProfile() {
@@ -50,13 +48,10 @@ export default class MyProfile extends Component {
       jwt: await AsyncStorage.getItem('jwt'),
     };
 
-    console.log(form_data);
-
     const url = domain_url + `/api/user/my_profile`;
     await axios
       .post(url, form_data, headers)
       .then(res => {
-        console.log('response', res.data.user);
         if (res.status === 200 && res.data.status === 200) {
           this.setState({
             user: res.data.user,
@@ -73,7 +68,7 @@ export default class MyProfile extends Component {
 
   async isLoggedIn() {
     const jwt = await AsyncStorage.getItem('jwt');
-    console.log(jwt);
+
     if (jwt) {
       return true;
     } else {
@@ -86,6 +81,7 @@ export default class MyProfile extends Component {
     this.setState({
       loggedIn: false,
     });
+    await this.props.navigation.navigate('Login');
   }
 
   render() {
@@ -97,8 +93,6 @@ export default class MyProfile extends Component {
       if (book) {
         var url = domain_url + book.picture;
       }
-
-      console.log(book);
     }
 
     return (
@@ -144,7 +138,7 @@ export default class MyProfile extends Component {
             <>
               <TouchableOpacity
                 style={styles.logout}
-                onPress={async () => await this.logout}
+                onPress={this.logout}
                 props={this.props}>
                 <Text style={styles.whiteText}>Logout</Text>
               </TouchableOpacity>

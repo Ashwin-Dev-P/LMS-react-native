@@ -9,7 +9,6 @@ export default class NavButtons extends Component {
 
   navigateTo(path) {
     this.props.props.navigation.navigate(path);
-    console.log(path);
   }
 
   /*

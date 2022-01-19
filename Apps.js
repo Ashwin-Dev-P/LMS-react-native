@@ -31,7 +31,7 @@ export default class Apps extends Component {
 
   async isLoggedIn() {
     const jwt = await AsyncStorage.getItem('jwt');
-    console.log(jwt);
+
     if (jwt) {
       return true;
     } else {

@@ -37,17 +37,14 @@ export default class UsersList extends Component {
     const headers = {
       'Content-Type': 'application/json',
     };
-    console.log(this.state.skip);
-    //const url = domain_url + "/api/member/basic/from/"+ ( (this.state.page * this.state.itemsPerPage) -9 ) +"/count/"+ this.state.itemsPerPage ;
     const url =
       domain_url + `/api/user/limit/10/skip/${skip || this.state.skip}`;
     axios
       .get(url, headers)
       .then(res => {
         if (res.status === 200 && res.data.status === 200) {
-          console.log(res.data.data);
           var newData = res.data.data;
-          console.log(newData);
+
           this.setState({
             //users: res.data.data,
             users: [...this.state.users, ...newData],
